@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ service.title }}{% endblock %}
+
+{% block content %}
+<!-- 🔹 Banner Image -->
+{% if service.bannerimage %}
+<div class="container-fluid" style="padding: 0;">
+  <img src="{{ service.bannerimage.url }}" alt="{{ service.title }}" 
+       style="width: 100%; height: auto; max-height: 500px; object-fit: cover;">
+</div>
+{% endif %}
+
+<!-- 🔹 Main Content -->
+<div class="container" style="padding: 60px 0;">
+  <div class="row">
+    <!-- Decorative Image -->
+    {% if service.decimage %}
+    <div class="col-md-5 col-sm-12" style="margin-bottom: 30px;">
+      <img src="{{ service.decimage.url }}" alt="{{ service.title }}" 
+           class="img-responsive img-rounded" style="width: 100%; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    </div>
+    {% endif %}
+
+    <!-- Title and Short Description -->
+    <div class="col-md-7 col-sm-12">
+      <h2 class="text-primary" style="margin-top: 0;">{{ service.title }}</h2>
+      <p style="font-size: 15px; color: #555; line-height: 1.6; margin-top: 15px;">
+        {{ service.short_description }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Long Description -->
+  <div class="row" style="margin-top: 40px;">
+    <div class="col-md-12">
+      <div style="font-size: 16px; color: #444; line-height: 1.8;">
+        {{ service.long_description|linebreaks }}
+      </div>
+      <a href="{% url 'core:poster' %}" class="btn btn-default" style="margin-top: 30px;">← Back to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if career_banner %}
+    {% with banner=career_banner.0 %}
+      <div class="about-banner" style="position: relative; width: 100%; overflow: hidden;">
+        <img src="{{ banner.image.url }}" class="img-responsive" style="width: 100%; height: auto; display: block;">
+        <div style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: white;
+          padding: 5px 15px;
+          text-align: center;
+        ">
+          <h4 style="margin: 0; font-size: 36px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">{{ banner.title }}</h4>
+        </div>
+      </div>
+    {% endwith %}
+{% else %}
+    <p class="text-center text-muted">No banner available.</p>
+{% endif %}
+
+<div class="container" style="padding: 50px 0;">
+  <h2 class="text-center text-primary">Grow your career with us</h2>
+  <div class="row" style="margin-top: 40px;">
+    {% for job in jobs %}
+      <div class="col-md-6">
+        <div class="card" style="margin-bottom: 30px; border: 1px solid #ddd; border-radius: 5px; padding: 20px;">
+          <div class="clearfix" style="margin-bottom: 10px;">
+            <h4 class="pull-left text-primary" style="margin-top: 0;">{{ job.title }}</h4>
+            <small class="pull-right text-muted" style="margin-top: 8px;">Posted: {{ job.posted_on }}</small>
+          </div>
+          <p>
+            <strong>Education:</strong> {{ job.education }}
+            &nbsp;&nbsp;&nbsp;
+            <strong>Job Type:</strong> {{ job.job_type }}
+          </p>
+          <p>{{ job.description }}</p>
+          <div style="text-align: right;">
+            <a href="{% url 'core:job_detail' job.id %}" class="btn btn-primary btn-sm">View Details & Apply</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Training Videos Section -->
+  <div class="row" style="margin-top: 60px;">
+    <div class="col-md-12">
+      <h2 class="text-center text-success">🎓 Trainings</h2>
+    </div>
+
+    {% if videos %}
+      {% for video in videos %}
+        <div class="col-md-6" style="margin-top: 30px;">
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong>{{ video.title }}</strong></div>
+            <div class="panel-body">
+              <video width="100%" height="auto" controls>
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-md-12">
+        <p class="text-center text-muted">No training videos available at the moment.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

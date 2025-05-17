@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+
+{% block content %}
+<div class="container" style="padding: 50px 0; max-width: 800px;">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="clearfix">
+        <h3 class="text-primary pull-left" style="margin-top: 0;">{{ job.title }}</h3>
+        <p class="text-muted pull-right" style="margin-top: 10px;">Posted on {{ job.posted_date|date:"F d, Y" }}</p>
+      </div>
+      <p>
+        <strong>Education:</strong> {{ job.education }} &nbsp;&nbsp;
+        <strong>Type:</strong> {{ job.job_type }}
+      </p>
+      <p>{{ job.description }}</p>
+    </div>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4 class="panel-title">Apply Now</h4>
+    </div>
+    <div class="panel-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+          <div class="form-group{% if field.errors %} has-error{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field|add_class:"form-control" }}
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-info">Submit Application</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

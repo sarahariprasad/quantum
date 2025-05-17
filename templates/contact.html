@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<!-- 🔹 Banner Section -->
+{% if contactbanner %}
+  {% for banner in contactbanner %}
+  <div class="container-fluid" style="padding:0;">
+    <img src="{{ banner.image.url }}" alt="{{ banner.title }}" style="width:100%; height:400px; object-fit:cover;">
+    <div class="carousel-caption" style="top: 50%; transform: translateY(-50%);">
+      <h2 style="color:white; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">{{ banner.title }}</h2>
+    </div>
+  </div>
+  {% endfor %}
+{% endif %}
+
+<!-- 🔹 Contact Form -->
+<div class="container" style="padding: 60px 0;">
+  <h2 class="text-center">Get in Touch</h2>
+  <hr style="margin-bottom: 40px;">
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="form-horizontal" novalidate style="max-width: 700px; margin: auto;">
+    {% csrf_token %}
+
+    <div class="form-group {% if form.name.errors %}has-error{% endif %}">
+      <label class="col-sm-3 control-label">Name</label>
+      <div class="col-sm-9">
+        {{ form.name }}
+        {% for error in form.name.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+      <label class="col-sm-3 control-label">Email</label>
+      <div class="col-sm-9">
+        {{ form.email }}
+        {% for error in form.email.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="form-group {% if form.subject.errors %}has-error{% endif %}">
+      <label class="col-sm-3 control-label">Subject</label>
+      <div class="col-sm-9">
+        {{ form.subject }}
+        {% for error in form.subject.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="form-group {% if form.message.errors %}has-error{% endif %}">
+      <label class="col-sm-3 control-label">Message</label>
+      <div class="col-sm-9">
+        {{ form.message }}
+        {% for error in form.message.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}About Us - Quantum Leap Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+  .about-banner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .about-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .about-banner .banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  }
+
+  .about-section h2 {
+    font-size: 26px;
+    color: #007acc;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .about-section ul {
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #444;
+  }
+
+  .about-section li {
+    margin-bottom: 15px;
+  }
+
+  .facts-section {
+    background-color: #033f7e;
+    padding: 60px 0;
+    color: white;
+  }
+
+  .facts-section .counter-column {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .facts-section .count-text {
+    font-size: 36px;
+    font-weight: bold;
+    display: block;
+  }
+
+  .facts-section .counter-title {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .facts-section .inner:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  {% if aboutbanner %}
+    {% with banner=aboutbanner.0 %}
+      <div class="about-banner">
+        <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="img-responsive">
+        <div class="banner-text">
+          <h4>{{ banner.title }}</h4>
+        </div>
+      </div>
+    {% endwith %}
+  {% else %}
+    <p class="text-center text-muted">No banner available.</p>
+  {% endif %}
+
+  <div class="container about-section" style="margin-top: 60px;">
+    {% for section in aboutus %}
+      <div class="row" style="margin-bottom: 50px;">
+        {% if forloop.counter|divisibleby:2 %}
+          <div class="col-sm-6 col-sm-push-6">
+            <img src="{{ section.image.url }}" alt="{{ section.title }}" class="img-responsive center-block" style="border-radius: 8px;">
+          </div>
+          <div class="col-sm-6 col-sm-pull-6">
+            <h2>{{ section.title }}</h2>
+            <ul>
+              {% for sentence in section.description|split_sentences %}
+                <li>{{ sentence }}.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% else %}
+          <div class="col-sm-6">
+            <img src="{{ section.image.url }}" alt="{{ section.title }}" class="img-responsive center-block" style="border-radius: 8px;">
+          </div>
+          <div class="col-sm-6">
+            <h2>{{ section.title }}</h2>
+            <ul>
+              {% for sentence in section.description|split_sentences %}
+                <li>{{ sentence }}.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if aboutdeals %}
+    <section class="facts-section">
+      <div class="container">
+        <div class="row">
+          {% for deal in aboutdeals %}
+            <div class="col-md-3 col-sm-6 col-xs-12 counter-column">
+              <div class="inner">
+                <div class="content">
+                  <span class="count-text">{{ deal.number }}</span>
+                  <div class="counter-title">{{ deal.title }}</div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
